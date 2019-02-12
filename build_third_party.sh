@@ -13,16 +13,13 @@ if [ -e vhci-hcd-$VERSION_VHCI_HCD ]
 	else if [ -e vhci-hcd-$VERSION_VHCI_HCD.tar.gz ]
 	        then tar -xzf vhci-hcd-$VERSION_VHCI_HCD.tar.gz
 			cd vhci-hcd-$VERSION_VHCI_HCD
-		else #git clone https://git.code.sf.net/p/usb-vhci/vhci_hcd
-wget https://sourceforge.net/projects/usb-vhci/files/linux%20kernel%20module/vhci-hcd-$VERSION_VHCI_HCD.tar.gz
-#if $?!=0 then echo "Cant get vhci-hcd kernel module. Check Internet connection"
+		else wget https://sourceforge.net/projects/usb-vhci/files/linux%20kernel%20module/vhci-hcd-$VERSION_VHCI_HCD.tar.gz
 tar -xzf vhci-hcd-$VERSION_VHCI_HCD.tar.gz
 cd vhci-hcd-$VERSION_VHCI_HCD
 fi fi 
 sed -i "/#define DEBUG/d" usb-vhci-hcd.c
 sed -i "/#define DEBUG/d" usb-vhci-iocifc.c
 make
-#if $?!=0 then echo "ERR:Cant compile vhci-hcd module"
 make install
 if [ "$?" -ne "$a" ] 
 then 
@@ -30,14 +27,21 @@ then
 else echo "OK"
 fi
 cd ..
-#wget https://sourceforge.net/projects/usb-vhci/files/native%20libraries/libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
-#if $?!=0 then echo "Check Internet connection"
-#tar -xzf libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
-#git clone https://git.code.sf.net/p/usb-vhci/libusb_vhci
-#cd libusb_vhci-$VERSION_LIBUSB_VHCI
-#./configure
-#make
-#if $?!=0 then echo "ERR:Cant compile libusb-vhci"
-#make install
-#if $?!=0 then echo "You are sudo?"
+if [ -e libusb_vhci-$VERSION_LIBUSB_VHCI ]
+        then cd libusb_vhci-$VERSION_LIBUSB_VHCI
+	else if [ -e libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz ]
+	        then tar -xzf libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
+			cd libusb_vhci-$VERSION_LIBUSB_VHCI
+		else wget https://sourceforge.net/projects/usb-vhci/files/native%20libraries/libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
+tar -xzf libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
+cd libusb_vhci-$VERSION_LIBUSB_VHCI
+fi fi 
+./configure
+make
+make install
+if [ "$?" -ne "$a" ] 
+then 
+	echo -e "\033[31mYou are sudo?" 
+else echo "OK"
+fi
 echo "Done. Add line to /etc/modules and PATH=/usr/local/lib"
