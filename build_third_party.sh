@@ -2,7 +2,6 @@
 
 VERSION_VHCI_HCD=1.15
 VERSION_LIBUSB_VHCI=0.7
-a=0
 if [ -e third_party ] 
 	then cd third_party
 	else mkdir third_party
@@ -21,7 +20,7 @@ sed -i "/#define DEBUG/d" usb-vhci-hcd.c
 sed -i "/#define DEBUG/d" usb-vhci-iocifc.c
 make
 make install
-if [ "$?" -ne "$a" ] 
+if [ "$?" -ne 0 ] 
 then 
 	echo -e "\033[31mYou are sudo?" 
 else echo "OK"
@@ -39,7 +38,7 @@ fi fi
 ./configure
 make
 make install
-if [ "$?" -ne "$a" ] 
+if [ "$?" -ne 0 ] 
 then 
 	echo -e "\033[31mYou are sudo?" 
 else echo "OK"
