@@ -5,8 +5,10 @@ VERSION_LIBUSB_VHCI=0.7
 ID_LIKE=$(cat /etc/os-release | grep ID_LIKE | cut -f2 -d = |cut -f1 -d " " | tr -d \")
 if [ $ID_LIKE = debian ]
 then apt-get install linux-source wget make linux-headers-generic gcc libjansson4
+	apt-mark hold linux-source linux-headers-generic linux-image-generic
 elif [ $ID_LIKE = rhel ]
 then yum install -y make wget jansson kernel-headers kernel-devel epel-release centos-release-scl
+	echo "exclude=kernel kernel-devel kernel-headers" >> /etc/yum.conf
 	yum install devtoolset-7-gcc*
 	scl enable devtoolset-7 bash
 else echo "Unknown Linux distr. Install manual wget, make, gcc, jansson, git, kernel headers and source and compile manual"
