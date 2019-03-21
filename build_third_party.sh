@@ -2,6 +2,14 @@
 
 VERSION_VHCI_HCD=1.15
 VERSION_LIBUSB_VHCI=0.7
+ID_LIKE=$(cat /etc/os-release | grep ID_LIKE | cut -f2 -d = |cut -f1 -d " " | tr -d \")
+if [ ID_LIKE = debian ]
+then apt-get install linux-source wget make linux-headers-generic gcc libjansson4
+elif [ ID_LIKE = rhel ]
+then yum install -y make wget jansson kernel-headers kernel-devel epel-release centos-release-scl
+else echo "Unknown Linux distr. Install manual wget, make, gcc, jansson, git, kernel headers and source and compile manual"
+fi
+
 if [ -e third_party ] 
 	then cd third_party
 	else mkdir third_party
@@ -43,4 +51,8 @@ then
 	echo -e "\033[31mYou are sudo?" 
 else echo "OK"
 fi
-echo "Done. Add line to /etc/modules and PATH=/usr/local/lib"
+touch /etc/modules-load.d/usb-vhci.conf
+echo usb-vhci-hcd > /etc/modules-load.d/usb-vhci.conf
+echo usb-vhci-iocifc >> /etc/modules-load.d/usb-vhci.conf
+
+echo "Done. Reboot and run  \"export LD_LIBRARY_PATH=/usr/local/lib\" before run usbhasp"
