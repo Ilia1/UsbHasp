@@ -7,6 +7,8 @@ if [ $ID_LIKE = debian ]
 then apt-get install linux-source wget make linux-headers-generic gcc libjansson4
 elif [ $ID_LIKE = rhel ]
 then yum install -y make wget jansson kernel-headers kernel-devel epel-release centos-release-scl
+	yum install devtoolset-7-gcc*
+	scl enable devtoolset-7 bash
 else echo "Unknown Linux distr. Install manual wget, make, gcc, jansson, git, kernel headers and source and compile manual"
 	echo "Continue?"
 	read -n 1
