@@ -55,4 +55,17 @@ touch /etc/modules-load.d/usb-vhci.conf
 echo usb-vhci-hcd > /etc/modules-load.d/usb-vhci.conf
 echo usb-vhci-iocifc >> /etc/modules-load.d/usb-vhci.conf
 
+echo "Installing haspd from Etersoft"
+if [ ID_LIKE = debian ]
+then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/9/haspd-modules_7.60-eter1debian_amd64.deb
+	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/9/haspd_7.60-eter1debian_amd64.deb
+	dpkg -i haspd_7.60-eter1debian_amd64.deb
+	dpkg -i haspd-modules_7.60-eter1debian_amd64.deb
+elif [ID_LIKE = rhel ]
+then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/RHEL/7/haspd-7.60-eter1centos.x86_64.rpm
+	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/RHEL/7/haspd-modules-7.60-eter1centos.x86_64.rpm
+	yum install -y haspd-7.60-eter1centos.x86_64.rpm
+	yum install -y haspd-modules-7.60-eter1centos.x86_64.rpm
+fi
+
 echo "Done. Reboot and run  \"export LD_LIBRARY_PATH=/usr/local/lib\" before run usbhasp"
