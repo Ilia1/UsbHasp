@@ -3,11 +3,13 @@
 VERSION_VHCI_HCD=1.15
 VERSION_LIBUSB_VHCI=0.7
 ID_LIKE=$(cat /etc/os-release | grep ID_LIKE | cut -f2 -d = |cut -f1 -d " " | tr -d \")
-if [ ID_LIKE = debian ]
+if [ $ID_LIKE = debian ]
 then apt-get install linux-source wget make linux-headers-generic gcc libjansson4
-elif [ ID_LIKE = rhel ]
+elif [ $ID_LIKE = rhel ]
 then yum install -y make wget jansson kernel-headers kernel-devel epel-release centos-release-scl
 else echo "Unknown Linux distr. Install manual wget, make, gcc, jansson, git, kernel headers and source and compile manual"
+	echo "Continue?"
+	read -n 1
 fi
 
 if [ -e third_party ] 
@@ -56,12 +58,12 @@ echo usb-vhci-hcd > /etc/modules-load.d/usb-vhci.conf
 echo usb-vhci-iocifc >> /etc/modules-load.d/usb-vhci.conf
 
 echo "Installing haspd from Etersoft"
-if [ ID_LIKE = debian ]
+if [ $ID_LIKE = debian ]
 then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/9/haspd-modules_7.60-eter1debian_amd64.deb
 	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/9/haspd_7.60-eter1debian_amd64.deb
 	dpkg -i haspd_7.60-eter1debian_amd64.deb
 	dpkg -i haspd-modules_7.60-eter1debian_amd64.deb
-elif [ID_LIKE = rhel ]
+elif [ $ID_LIKE = rhel ]
 then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/RHEL/7/haspd-7.60-eter1centos.x86_64.rpm
 	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/RHEL/7/haspd-modules-7.60-eter1centos.x86_64.rpm
 	yum install -y haspd-7.60-eter1centos.x86_64.rpm
