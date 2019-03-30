@@ -10,7 +10,7 @@ elif [ $ID_LIKE = rhel ]
 then yum install -y make wget jansson kernel-headers kernel-devel epel-release centos-release-scl
 	echo "exclude=kernel kernel-devel kernel-headers" >> /etc/yum.conf
 	yum install devtoolset-7-gcc*
-	scl enable devtoolset-7 bash
+#	scl enable devtoolset-7 bash
 else echo "Unknown Linux distr. Install manual wget, make, gcc, jansson, git, kernel headers and source and compile manual"
 	echo "Continue?"
 	read -n 1
@@ -26,7 +26,7 @@ if [ -e vhci-hcd-$VERSION_VHCI_HCD ]
 	else if [ -e vhci-hcd-$VERSION_VHCI_HCD.tar.gz ]
 	        then tar -xzf vhci-hcd-$VERSION_VHCI_HCD.tar.gz
 			cd vhci-hcd-$VERSION_VHCI_HCD
-		else wget https://sourceforge.net/projects/usb-vhci/files/linux%20kernel%20module/vhci-hcd-$VERSION_VHCI_HCD.tar.gz
+		else wget "https://sourceforge.net/projects/usb-vhci/files/linux kernel module/vhci-hcd-$VERSION_VHCI_HCD.tar.gz"
 tar -xzf vhci-hcd-$VERSION_VHCI_HCD.tar.gz
 cd vhci-hcd-$VERSION_VHCI_HCD
 fi fi 
@@ -45,7 +45,7 @@ if [ -e libusb_vhci-$VERSION_LIBUSB_VHCI ]
 	else if [ -e libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz ]
 	        then tar -xzf libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
 			cd libusb_vhci-$VERSION_LIBUSB_VHCI
-		else wget https://sourceforge.net/projects/usb-vhci/files/native%20libraries/libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
+		else wget "https://sourceforge.net/projects/usb-vhci/files/native libraries/libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz"
 tar -xzf libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
 cd libusb_vhci-$VERSION_LIBUSB_VHCI
 fi fi 
