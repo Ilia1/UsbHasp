@@ -7,7 +7,7 @@ if [ $ID_LIKE = debian ]
 then apt-get install linux-source wget make linux-headers-generic gcc libjansson4
 	apt-mark hold linux-source linux-headers-generic linux-image-generic
 elif [ $ID_LIKE = rhel ]
-then yum install -y make wget jansson kernel-headers kernel-devel epel-release centos-release-scl
+then yum install -y make wget jansson jansson-devel kernel-headers kernel-devel epel-release centos-release-scl
 	echo "exclude=kernel kernel-devel kernel-headers" >> /etc/yum.conf
 	yum install devtoolset-7-gcc*
 #	scl enable devtoolset-7 bash
