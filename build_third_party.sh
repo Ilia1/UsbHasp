@@ -60,7 +60,7 @@ fi
 touch /etc/modules-load.d/usb-vhci.conf
 echo usb-vhci-hcd > /etc/modules-load.d/usb-vhci.conf
 echo usb-vhci-iocifc >> /etc/modules-load.d/usb-vhci.conf
-cd ..
+
 echo "Installing haspd from Etersoft"
 if [ $ID_LIKE = debian ]
 then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/9/haspd-modules_7.60-eter1debian_amd64.deb
@@ -73,10 +73,11 @@ then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/RHEL/7/haspd
 	yum install -y haspd-7.60-eter1centos.x86_64.rpm
 	yum install -y haspd-modules-7.60-eter1centos.x86_64.rpm
 fi
+cd ../..
 if [ $ID_LIKE = rhel ]
 then scl enable devtoolset-7 "make all"
 else make all
 fi
-make install
+echo "export PATH=$PATH:$PWD/dist/Release/GNU-Linux " >> ~/.bash_profile
 echo "export LD_LIBRARY_PATH=/usr/local/lib" >> ~/.bash_profile
 echo "Done. Reboot and run usbhasp -d hasp.json"
