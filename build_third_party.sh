@@ -78,6 +78,6 @@ if [ $ID_LIKE = rhel ]
 then scl enable devtoolset-7 "make all"
 else make all
 fi
-echo "export PATH=$PATH:$PWD/dist/Release/GNU-Linux " >> ~/.bash_profile
+echo "export PATH=\$PATH:$PWD/dist/Release/GNU-Linux " >> ~/.bash_profile
 echo "export LD_LIBRARY_PATH=/usr/local/lib" >> ~/.bash_profile
 echo "Done. Reboot and run usbhasp -d hasp.json"
