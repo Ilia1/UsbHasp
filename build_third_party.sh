@@ -9,10 +9,10 @@ if [ $ID_LIKE = debian ]
 then apt-get install linux-source wget make linux-headers-generic gcc libjansson4 libjansson-dev
 	apt-mark hold linux-source linux-headers-generic linux-image-generic
 elif [ $ID_LIKE = rhel ]
-then yum install -y make wget jansson kernel-headers kernel-devel epel-release centos-release-scl
+then yum install -y make gcc-c++ wget jansson jansson-devel kernel-headers kernel-devel epel-release centos-release-scl
 	echo "exclude=kernel kernel-devel kernel-headers" >> /etc/yum.conf
 	yum install devtoolset-7-gcc*
-	scl enable devtoolset-7 bash
+
 else echo "Unknown Linux distr. Install manual wget, make, gcc, jansson-dev, git, kernel headers and source and compile manual"
 	echo "Continue?"
 	read -n 1
@@ -28,7 +28,7 @@ if [ -e vhci-hcd-$VERSION_VHCI_HCD ]
 	else if [ -e vhci-hcd-$VERSION_VHCI_HCD.tar.gz ]
 	        then tar -xzf vhci-hcd-$VERSION_VHCI_HCD.tar.gz
 			cd vhci-hcd-$VERSION_VHCI_HCD
-		else wget https://sourceforge.net/projects/usb-vhci/files/linux%20kernel%20module/vhci-hcd-$VERSION_VHCI_HCD.tar.gz
+		else wget "https://sourceforge.net/projects/usb-vhci/files/linux kernel module/vhci-hcd-$VERSION_VHCI_HCD.tar.gz"
 tar -xzf vhci-hcd-$VERSION_VHCI_HCD.tar.gz
 cd vhci-hcd-$VERSION_VHCI_HCD
 fi fi 
@@ -47,7 +47,7 @@ if [ -e libusb_vhci-$VERSION_LIBUSB_VHCI ]
 	else if [ -e libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz ]
 	        then tar -xzf libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
 			cd libusb_vhci-$VERSION_LIBUSB_VHCI
-		else wget https://sourceforge.net/projects/usb-vhci/files/native%20libraries/libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
+		else wget "https://sourceforge.net/projects/usb-vhci/files/native libraries/libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz"
 tar -xzf libusb_vhci-$VERSION_LIBUSB_VHCI.tar.gz
 cd libusb_vhci-$VERSION_LIBUSB_VHCI
 fi fi 
@@ -80,5 +80,11 @@ then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/$VERS
 	dpkg -i haspd_7.60-eter1ubuntu_amd64.deb
 	dpkg -i haspd-modules_7.60-eter1ubuntu_amd64.deb
 fi
-
-echo "Done. Reboot and run  \"export LD_LIBRARY_PATH=/usr/local/lib\" before run usbhasp"
+cd ../..
+if [ $ID_LIKE = rhel ]
+then scl enable devtoolset-7 "make all"
+else make all
+fi
+echo "export PATH=\$PATH:$PWD/dist/Release/GNU-Linux " >> ~/.bash_profile
+echo "export LD_LIBRARY_PATH=/usr/local/lib" >> ~/.bash_profile
+echo "Done. Reboot and run usbhasp -d hasp.json"
