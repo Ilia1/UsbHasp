@@ -78,6 +78,7 @@ then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/$VERS
 	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/$VERSION_ID/haspd_7.60-eter1ubuntu_amd64.deb || wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/18.04/haspd_7.60-eter1ubuntu_amd64.deb
 	dpkg -i haspd_7.60-eter1ubuntu_amd64.deb
 	dpkg -i haspd-modules_7.60-eter1ubuntu_amd64.deb
+else echo "Unknown distr, visit http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/ and manual install"
 fi
 cd ../..
 if [ $ID_LIKE = rhel ]
