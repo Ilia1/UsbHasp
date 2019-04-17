@@ -5,6 +5,7 @@ VERSION_LIBUSB_VHCI=0.7
 ID=$(cat /etc/os-release | grep ^ID=  | cut -f2 -d =)
 VERSION_ID=$(cat /etc/os-release | grep ^VERSION\_ID=  | cut -f2 -d = | tr -d \")
 ID_LIKE=$(cat /etc/os-release | grep ID_LIKE | cut -f2 -d = |cut -f1 -d " " | tr -d \")
+VER_HASPD=7.90
 if [ $ID_LIKE = debian ]
 then apt-get install linux-source wget make linux-headers-generic gcc libjansson4 libjansson-dev
 	apt-mark hold linux-source linux-headers-generic linux-image-generic
@@ -64,20 +65,20 @@ echo usb-vhci-iocifc >> /etc/modules-load.d/usb-vhci.conf
 
 echo "Installing haspd from Etersoft"
 if [ $ID = debian ]
-then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/$VERSION_ID/haspd-modules_7.60-eter1debian_amd64.deb
-	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/$VERSION_ID/haspd_7.60-eter1debian_amd64.deb
-	dpkg -i haspd_7.60-eter1debian_amd64.deb
-	dpkg -i haspd-modules_7.60-eter1debian_amd64.deb
+then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/$VERSION_ID/haspd-modules_$VER_HASPD-eter1debian_amd64.deb
+	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Debian/$VERSION_ID/haspd_$VER_HASPD-eter1debian_amd64.deb
+	dpkg -i haspd_$VER_HASPD-eter1debian_amd64.deb
+	dpkg -i haspd-modules_$VER_HASPD-eter1debian_amd64.deb
 elif [ $ID_LIKE = rhel ]
-then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/RHEL/$VERSION_ID/haspd-7.60-eter1centos.x86_64.rpm
-	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/RHEL/$VERSION_ID/haspd-modules-7.60-eter1centos.x86_64.rpm
-	yum install -y haspd-7.60-eter1centos.x86_64.rpm
-	yum install -y haspd-modules-7.60-eter1centos.x86_64.rpm
+then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/RHEL/$VERSION_ID/haspd-$VER_HASPD-eter1centos.x86_64.rpm
+	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/RHEL/$VERSION_ID/haspd-modules-$VER_HASPD-eter1centos.x86_64.rpm
+	yum install -y haspd-$VER_HASPD-eter1centos.x86_64.rpm
+	yum install -y haspd-modules-$VER_HASPD-eter1centos.x86_64.rpm
 elif [ $ID = ubuntu ]
-then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/$VERSION_ID/haspd-modules_7.60-eter1ubuntu_amd64.deb || wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/18.04/haspd-modules_7.60-eter1ubuntu_amd64.deb
-	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/$VERSION_ID/haspd_7.60-eter1ubuntu_amd64.deb || wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/18.04/haspd_7.60-eter1ubuntu_amd64.deb
-	dpkg -i haspd_7.60-eter1ubuntu_amd64.deb
-	dpkg -i haspd-modules_7.60-eter1ubuntu_amd64.deb
+then wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/$VERSION_ID/haspd-modules_$VER_HASPD-eter1ubuntu_amd64.deb || wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/18.04/haspd-modules_$VER_HASPD-eter1ubuntu_amd64.deb
+	wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/$VERSION_ID/haspd_$VER_HASPD-eter1ubuntu_amd64.deb || wget http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/Ubuntu/18.04/haspd_$VER_HASPD-eter1ubuntu_amd64.deb
+	dpkg -i haspd_$VER_HASPD-eter1ubuntu_amd64.deb
+	dpkg -i haspd-modules_$VER_HASPD-eter1ubuntu_amd64.deb
 else echo "Unknown distr, visit http://download.etersoft.ru/pub/Etersoft/HASP/last/x86_64/ and manual install"
 fi
 cd ../..
