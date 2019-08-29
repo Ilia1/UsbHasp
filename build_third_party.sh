@@ -7,7 +7,7 @@ VERSION_ID=$(cat /etc/os-release | grep ^VERSION\_ID=  | cut -f2 -d = | tr -d \"
 ID_LIKE=$(cat /etc/os-release | grep ID_LIKE | cut -f2 -d = |cut -f1 -d " " | tr -d \")
 VER_HASPD=7.90
 if [ $ID_LIKE = debian ]
-then apt-get install linux-source wget make linux-headers-generic gcc libjansson4 libjansson-dev
+then apt-get install linux-source wget make linux-headers-generic gcc libjansson4 libjansson-dev libelf-dev
 	apt-mark hold linux-source linux-headers-generic linux-image-generic
 elif [ $ID_LIKE = rhel ]
 then yum install -y make gcc-c++ wget jansson jansson-devel kernel-headers kernel-devel epel-release centos-release-scl
@@ -33,7 +33,7 @@ tar -xzf vhci-hcd-$VERSION_VHCI_HCD.tar.gz
 cd vhci-hcd-$VERSION_VHCI_HCD
 fi fi 
 sed -i "/#define DEBUG/d" usb-vhci-hcd.c
-sed -i "/#define DEBUG/d" usb-vhci-iocifc.c
+sed -i "s/#define DEBUG/#include <linux\/uaccess.h>/" usb-vhci-iocifc.c
 make
 make install
 if [ "$?" -ne 0 ] 
